@@ -1,32 +1,29 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <button type="button" @click="getLaw()">Get a new hacker law</button>
+    <div v-if="law != null">
+      <h1>{{ law.name }}</h1>
+      <p>{{ law.definition }}</p>
+    </div>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Vue from "vue";
 
-nav {
-  padding: 30px;
-}
+export default {
+  name: "App",
+  components: {},
+  data() {
+    return {
+      law: null,
+    };
+  },
+  methods: {
+    getLaw() {
+      Vue.axios.get("/law").then((response) => (this.law = response.data));
+    },
+  },
+};
+</script>
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
